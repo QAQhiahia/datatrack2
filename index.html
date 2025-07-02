@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>未来城市你是哪类居民？</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 2em;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 2em;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      margin: 1.5em 0;
+    }
+    button {
+      display: block;
+      margin: 2em auto 1em;
+      padding: 0.7em 2em;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      background-color: #6366f1;
+      color: #fff;
+      cursor: pointer;
+    }
+    .result {
+      text-align: center;
+      margin-top: 2em;
+    }
+    .avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>未来城市你是哪类居民？</h1>
+
+    <div class="question">
+      你更偏好以下哪种生活？<br>
+      <input type="radio" name="q1" value="tech"> 沉浸式虚拟空间<br>
+      <input type="radio" name="q1" value="eco"> 可持续自然生活<br>
+      <input type="radio" name="q1" value="social"> 多人互动与连接<br>
+      <input type="radio" name="q1" value="space"> 探索边界与科技前沿<br>
+    </div>
+
+    <div class="question">
+      如果你是AI城市的一员，你会负责：<br>
+      <input type="radio" name="q2" value="tech"> 数据系统与架构建设<br>
+      <input type="radio" name="q2" value="eco"> 城市生态与能耗维护<br>
+      <input type="radio" name="q2" value="social"> 情绪引导与人际交流<br>
+      <input type="radio" name="q2" value="space"> 空间设计与场景实验<br>
+    </div>
+
+    <button onclick="generateIdentity()">生成我的未来身份</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const roles = {
+      tech: {
+        name: '🌐 数据建筑师',
+        img: 'https://i.postimg.cc/tTJYpV3X/ai-avatar-tech.jpg',
+        desc: '用算法设计城市，用数据构筑秩序，是未来城市的基础构建者。'
+      },
+      eco: {
+        name: '🌿 生态守望人',
+        img: 'https://i.postimg.cc/GtYbHL9v/ai-avatar-eco.jpg',
+        desc: '守护绿色能源与生态平衡，是自然与科技共生的捍卫者。'
+      },
+      social: {
+        name: '🤖 数字社交体',
+        img: 'https://i.postimg.cc/cLnSt0g5/ai-avatar-social.jpg',
+        desc: '连接人心与网络情感，掌控社交脉搏的智慧生命体。'
+      },
+      space: {
+        name: '🛰 空间漫游者',
+        img: 'https://i.postimg.cc/mg5C2Xj8/ai-avatar-space.jpg',
+        desc: '穿梭于虚拟与现实的边界，是数字世界的冒险者与发现者。'
+      }
+    };
+
+    function generateIdentity() {
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+
+      if (!q1 || !q2) {
+        document.getElementById('result').innerHTML = '<p>请完成所有问题后生成。</p>';
+        return;
+      }
+
+      // 简单投票逻辑（后续可加权）
+      const selected = [q1.value, q2.value];
+      const counts = {};
+      selected.forEach(val => counts[val] = (counts[val] || 0) + 1);
+      const finalType = Object.keys(counts).reduce((a, b) => counts[a] >= counts[b] ? a : b);
+
+      const role = roles[finalType];
+      document.getElementById('result').innerHTML = `
+        <img class="avatar" src="${role.img}" alt="头像">
+        <h2>${role.name}</h2>
+        <p>${role.desc}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
